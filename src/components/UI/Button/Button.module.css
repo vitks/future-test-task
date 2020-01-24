@@ -1,0 +1,40 @@
+.Button {
+    min-height: 50px;
+    padding: 15px 57px;
+    line-height: 20px;
+    display: inline-block;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    color: rgba(0, 0, 0, 0.75);
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+    background-color: #FFFFFF;
+    border: 1px solid #DFE5EC;
+}
+
+.Left {
+    border-radius: 4px 0 0 4px;
+}
+
+.Right {
+    border-radius: 0 4px 4px 0;
+}
+
+.Middle {
+    border-radius: 0;
+}
+
+.Single {
+    border-radius: 4px;
+}
+
+.Active {
+    background-color: rgba(120, 180, 230);
+    color: #FFFFFF;
+    border: 1px solid rgba(120, 180, 230);
+}

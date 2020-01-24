@@ -1,0 +1,18 @@
+.TableHead {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.Cell {
+    padding: 15px;
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.Row:hover {
+    background-color: rgba(120, 180, 230);
+    color: #FFFFFF;
+    border: 1px solid rgba(120, 180, 230);
+}
+
+.Text {
+    color:  rgba(0, 0, 0, 0.75);
+}

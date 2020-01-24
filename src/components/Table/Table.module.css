@@ -1,0 +1,9 @@
+.Table {
+    width: 100%;
+    margin: 0 auto;
+    border-spacing: 0;
+    text-align: left;
+    vertical-align: middle;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+}
