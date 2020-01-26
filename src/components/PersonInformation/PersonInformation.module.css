@@ -1,0 +1,7 @@
+.PersonInformationForm {
+    max-width: 350px;
+    margin: 20px auto 0px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px;
+}

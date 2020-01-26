@@ -4,11 +4,12 @@
 }
 
 .Row:hover {
+    cursor: pointer;
     background-color: rgba(120, 180, 230);
-    color: #FFFFFF;
     border: 1px solid rgba(120, 180, 230);
+    color: #ffffff;
 }
 
 .Text {
-    color:  rgba(0, 0, 0, 0.75);
+    color: inherit;
 }

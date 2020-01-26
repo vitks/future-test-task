@@ -6,23 +6,24 @@ const tableBody = (props) => {
     const bodyContent = props.rows.map(rowObj => {
         const cells = props.columns.map(columnObj => {
             return(
-                <td className={ classes.Cell } key={ columnObj.key + '_' + rowObj.id }>
+                <td className={ classes.Cell }
+                    key={ `${ columnObj.key }_${ rowObj.id }` }>
                         <span className={ classes.Text }>{ rowObj[columnObj.key] }</span>
                 </td>
             );
         });
 
         return(
-            <tr className={ classes.Row } key={ rowObj.id }>
+            <tr className={ classes.Row }
+                key={ rowObj.id }
+                onClick={ () => props.rowClicked(rowObj) }>
                     { cells }
             </tr>
         );
     });
 
     return(
-        <tbody>
-            { bodyContent }
-        </tbody>
+        <tbody>{ bodyContent }</tbody>
     );
 }
 

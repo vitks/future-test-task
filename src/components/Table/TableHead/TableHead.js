@@ -5,7 +5,8 @@ import classes from './TableHead.module.css';
 const tableHead = (props) => {
     const headContent = props.columnHeads.map(columnHeadObj => {
         return(
-            <th className={ classes.Cell } key={ columnHeadObj.key }>
+            <th className={ classes.Cell }
+                key={ columnHeadObj.key }>
                     <span className={ classes.Text }>{ columnHeadObj.name }</span>
             </th>
         );
@@ -13,9 +14,7 @@ const tableHead = (props) => {
 
     return(
         <thead className={ classes.TableHead }>
-            <tr className={ classes.Row }>
-                { headContent }
-            </tr>
+            <tr className={ classes.Row }>{ headContent }</tr>
         </thead>
     );
 }

@@ -1,0 +1,11 @@
+.App {
+    margin: 20px 50px;
+}
+
+.ContentWrapper {
+    display: grid;
+}
+
+.InitialText  {
+    text-align: center;
+}

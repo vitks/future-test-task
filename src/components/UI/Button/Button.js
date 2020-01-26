@@ -4,10 +4,10 @@ import classes from './Button.module.css';
 
 const button = ( props ) => {
     let classesArray = [classes.Button, classes[props.position]];
-    let width = '100%'
+    let buttonStyle = null;
 
-    if (props.width) {
-        width = `${ props.width }%`;
+    if (props.style) {
+        buttonStyle = props.style;
     }
     
     if (props.isActive) {
@@ -17,7 +17,7 @@ const button = ( props ) => {
     return(
         <button
             className={ classesArray.join(' ') }
-            style={{ width: width }}
+            style={ buttonStyle }
             onClick={ props.clicked }>{ props.children }</button>
     );
 }

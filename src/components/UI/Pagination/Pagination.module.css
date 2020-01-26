@@ -1,0 +1,28 @@
+.Pagination {
+    text-align: center;
+}
+
+.Button {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.75);
+    background-color: #ffffff;
+}
+
+.Active {
+    color: #1890ff;
+}
+
+i {
+    border: solid rgba(0, 0, 0, 0.75);
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.Left {
+    transform: rotate(135deg);
+}
+
+.Right {
+    transform: rotate(-45deg);
+}

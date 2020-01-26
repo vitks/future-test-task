@@ -7,22 +7,24 @@ import classes from './ButtonForm.module.css';
 const buttonForm = (props) => {
     let buttonsArray = [];
     let buttonFormContent = null;
+    let buttonWidth = '100%'
 
-    for (let key in props.buttons) {
+    for (let key in props.buttonFormStructure.buttons) {
         buttonsArray.push({
             key: key,
-            config: props.buttons[key]
+            config: props.buttonFormStructure.buttons[key]
         });
     }
 
-    let buttonWidth = (100/buttonsArray.length).toFixed(0).toString();
+    buttonWidth = (100/buttonsArray.length).toFixed(0).toString() + '%';
 
     buttonFormContent = buttonsArray.map(buttonObj => (
         <Button
             key={ buttonObj.key }
             isActive={ buttonObj.config.isActive }
             position={ buttonObj.config.position }
-            width={ buttonWidth }>{ buttonObj.config.text }</Button>
+            style={{ width: buttonWidth }}
+            clicked={ () => props.buttonClicked(buttonObj.key) }>{ buttonObj.config.text }</Button>
     ));
 
     return(
