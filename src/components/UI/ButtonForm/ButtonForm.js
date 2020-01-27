@@ -1,22 +1,19 @@
 import React from 'react';
 
-import Button from '../UI/Button/Button';
-
-import classes from './ButtonForm.module.css';
+import Button from '../Button/Button';
 
 const buttonForm = (props) => {
     let buttonsArray = [];
     let buttonFormContent = null;
-    let buttonWidth = '100%'
 
-    for (let key in props.buttonFormStructure.buttons) {
+    for (let key in props.buttonFormStructure) {
         buttonsArray.push({
             key: key,
-            config: props.buttonFormStructure.buttons[key]
+            config: props.buttonFormStructure[key]
         });
     }
 
-    buttonWidth = (100/buttonsArray.length).toFixed(0).toString() + '%';
+    const buttonWidth = (100/buttonsArray.length).toFixed(0).toString() + '%';
 
     buttonFormContent = buttonsArray.map(buttonObj => (
         <Button
@@ -28,7 +25,7 @@ const buttonForm = (props) => {
     ));
 
     return(
-        <div className={ classes.ButtonForm }>
+        <div>
             { buttonFormContent }
         </div>
     );

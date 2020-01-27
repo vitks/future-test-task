@@ -112,7 +112,7 @@ class RowAdder extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    pattern: /^[A-Z]{2}$/
+                    pattern: /^[A-Z]{2,}$/
                 },
                 valid: false,
                 touched: false
@@ -126,7 +126,7 @@ class RowAdder extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    pattern: /^\d{5}$/
+                    pattern: /^\d{5,}$/
                 },
                 valid: false,
                 touched: false
@@ -178,7 +178,7 @@ class RowAdder extends Component {
         return !isHidden;
     }
 
-    inputChangeHandler = (event, formElement) => {
+    rowAdderInputChangeHandler = (event, formElement) => {
         const updatedRowAdderForm = {
             ...this.state.rowAdderForm,
             [formElement]: {
@@ -206,15 +206,13 @@ class RowAdder extends Component {
 
         let form = formElementsArray.map(formElement => (
             <Input
-                key={formElement.id}
-                elementType={formElement.config.elementType}
-                elementConfig={formElement.config.elementConfig}
-                value={formElement.config.value}
-                valid={formElement.config.valid}
-                shouldValidate={formElement.config.validation}
-                touched={formElement.config.touched}
-                changed={(event) => this.inputChangeHandler(event, formElement.id)}
-            />
+                key={ formElement.id }
+                elementType={ formElement.config.elementType }
+                elementConfig={ formElement.config.elementConfig }
+                value={ formElement.config.value }
+                valid={ formElement.config.valid }
+                touched={ formElement.config.touched }
+                changed={ (event) => this.rowAdderInputChangeHandler(event, formElement.id) } />
         ));
         
         return (
@@ -223,7 +221,7 @@ class RowAdder extends Component {
                 { addButtonView ?
                     <Button
                         position='Single'
-                        style={{ margin: '10px 0px 0px 5px' }}
+                        style={{ marginTop: '10px', width: '99%' }}
                         clicked={ () => this.props.addRowClicked({
                             id: rowAdderForm.id.value,
                             firstName: rowAdderForm.firstName.value,

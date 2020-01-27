@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import axios from '../../axios';
-import ButtonForm from '../../components/ButtonForm/ButtonForm';
+import ButtonForm from '../../components/UI/ButtonForm/ButtonForm';
 import Table from '../Table/Table';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import PersonInformation from '../../components/PersonInformation/PersonInformation';
@@ -9,6 +9,7 @@ import Button from '../../components/UI/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import withErrorHandler from '../../hoc/withErrorHandler';
 import RowAdder from '../RowAdder/RowAdder';
+import RowFilter from '../RowFilter/RowFilter';
 
 import classes from './App.module.css';
 
@@ -37,38 +38,42 @@ class App extends Component {
                     key: 'id',
                     name: 'ID',
                     sortDirection: null,
-                    filtration: () => this.headFiltrationHandler('id')
+                    sort: () => this.headSortHandler('id')
                 },
                 {
                     key: 'firstName',
                     name: 'First Name',
                     sortDirection: null,
-                    filtration: () => this.headFiltrationHandler('firstName')
+                    sort: () => this.headSortHandler('firstName')
                 },
                 {
                     key: 'lastName',
                     name: 'Last Name',
                     sortDirection: null,
-                    filtration: () => this.headFiltrationHandler('lastName')
+                    sort: () => this.headSortHandler('lastName')
                 },
                 {
                     key: 'email',
                     name: 'Email',
                     sortDirection: null,
-                    filtration: () => this.headFiltrationHandler('email')
+                    sort: () => this.headSortHandler('email')
                 },
                 {
                     key: 'phone',
                     name: 'Phone',
                     sortDirection: null,
-                    filtration: () => this.headFiltrationHandler('phone')
+                    sort: () => this.headSortHandler('phone')
                 }
             ],
             tableBody: null
         },
         loading: false,
         chosenRow: null,
-        addRowModalView: false
+        addRowModalView: false,
+        filter: {
+            value: '',
+            chosenColumns: []
+        }
     };
 
     getDataFromServer = (rowsNumber) => {
@@ -82,15 +87,19 @@ class App extends Component {
                     tableHead: updatedTableHead,
                     tableBody: response.data
                 };
+                const updatedFilter = {
+                    value: '',
+                    chosenColumns: []
+                }
 
-                this.setState({ tableStructure: updatedTableStructure, loading: false });
+                this.setState({ tableStructure: updatedTableStructure, filter: updatedFilter, loading: false });
             })
             .catch(error => {
                 this.setState({ loading: false });
             });
     }
 
-    headFiltrationHandler = (columnKey) => {
+    headSortHandler = (columnKey) => {
         const { tableStructure } = this.state;
         let updatedTableBody = [...tableStructure.tableBody];
         let updatedSortDirection = null;
@@ -196,9 +205,50 @@ class App extends Component {
         this.setState({ tableStructure: newTableStructure });
         this.modalViewHandler();
     }
+
+    filterHandler = (newValue, newChosenColumns) => {
+        const updatedFilter = {
+            ...this.state.filter,
+            value: newValue,
+            chosenColumns: newChosenColumns
+        }
+        
+        this.setState({ filter: updatedFilter })
+    }
+
+    filterTableBody = (tableBody) => {
+        const { filter, tableStructure } = this.state;
+        let filteredTableBody = null;
+       
+        if (filter.value !== '' && filter.chosenColumns !== []) {
+            filteredTableBody = [];
+
+            tableBody.forEach(row => {
+                let flag = false;
+
+                filter.chosenColumns.forEach(column => {
+                    if (row[column].toString().toLowerCase().indexOf(filter.value) !== -1) {
+                        flag = true;
+                    }
+                });
+
+                if (flag) filteredTableBody.push(row);
+            });
+        } else {
+            if (tableStructure.tableBody) {
+                filteredTableBody = [...tableStructure.tableBody];
+            }
+        }
+
+        return filteredTableBody;
+    }
     
     render() {
         const { buttonForm, tableStructure, loading, chosenRow, addRowModalView } = this.state;
+        const newTableStructure = {
+            ...tableStructure,
+            tableBody: this.filterTableBody(tableStructure.tableBody)
+        };
         let content = null;
         let rowContent = null;
 
@@ -212,10 +262,11 @@ class App extends Component {
             content = <div className={ classes.ContentWrapper }>
                     <Button
                         position='Single'
-                        style={{ margin: '20px auto' }}
+                        style={{ margin: '20px 0px 10px 0px', width: '100%' }}
                         clicked={ this.modalViewHandler }>Add table row</Button>
+                    <RowFilter filterButtonClicked={ this.filterHandler } />
                     <Table
-                        structure={ tableStructure }
+                        structure={ newTableStructure }
                         maxRowsNumber={ 10 }
                         tableRowClicked={ this.onTableRowClickHandler } />
                     <Modal
@@ -234,7 +285,7 @@ class App extends Component {
         return(
             <div className={ classes.App }>
                 <ButtonForm
-                    buttonFormStructure={ buttonForm }
+                    buttonFormStructure={ buttonForm.buttons }
                     buttonClicked={ this.changeDataTypeHandler } />
                 { content }
             </div>

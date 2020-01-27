@@ -3,6 +3,7 @@ import React from 'react';
 import classes from './TableHead.module.css';
 
 const tableHead = (props) => {
+    const columnWidth = (100/props.columnHeads.length).toFixed(0).toString() + '%';
     const headContent = props.columnHeads.map(columnHeadObj => {
         let arrow = null;
 
@@ -10,14 +11,14 @@ const tableHead = (props) => {
             let classesArray = [classes.Sort];
 
             classesArray.push(classes[columnHeadObj.sortDirection]);
-            console.log(classesArray);
             arrow = <i className={ classesArray.join(' ') }></i>;
         }
 
         return(
             <th className={ classes.Cell }
+                style={{ width: columnWidth }}
                 key={ columnHeadObj.key }
-                onClick={ () => columnHeadObj.filtration() }>
+                onClick={ () => columnHeadObj.sort() }>
                     <span className={ classes.Text }>{ columnHeadObj.name }</span>
                     { arrow }
             </th>

@@ -3,12 +3,20 @@
 }
 
 .Button {
+    margin: 10px 3px;
     cursor: pointer;
     color: rgba(0, 0, 0, 0.75);
     background-color: #ffffff;
 }
 
+.Button:hover {
+    border-radius: 3px;
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
 .Active {
+    border-radius: 3px;
+    border-color: #1890ff;
     color: #1890ff;
 }
 
@@ -21,8 +29,10 @@ button > i {
 
 .Left {
     transform: rotate(135deg);
+    margin-right: -3px;
 }
 
 .Right {
     transform: rotate(-45deg);
+    margin-left: -3px;
 }

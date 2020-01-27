@@ -8,16 +8,27 @@ import classes from './Table.module.css';
 
 class Table extends Component {
     state = {
-        currentPage: 1,
-        pagesNumber: null
+        currentPage: null,
+        pagesNumber: null,
+        previousLength: null
     }
 
     componentDidMount() {
-       let newPagesNumber = this.props.structure.tableBody.length / this.props.maxRowsNumber;
+        this.setPagination();
+    }
 
-       if (newPagesNumber - Math.trunc(newPagesNumber) > 0) newPagesNumber = Math.trunc(newPagesNumber) + 1;
+    componentDidUpdate() {
+        if (this.state.previousLength !== this.props.structure.tableBody.length) {
+            this.setPagination();
+        }
+    }
 
-       this.setState({ pagesNumber: newPagesNumber });
+    setPagination = () => {
+        let newPagesNumber = this.props.structure.tableBody.length / this.props.maxRowsNumber;
+        
+        if (newPagesNumber - Math.trunc(newPagesNumber) > 0) newPagesNumber = Math.trunc(newPagesNumber) + 1;
+        
+        this.setState({ pagesNumber: newPagesNumber, currentPage: 1, previousLength: this.props.structure.tableBody.length });
     }
 
     paginationHandler = (value) => {

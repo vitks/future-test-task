@@ -5,6 +5,13 @@ import classes from './Input.module.css';
 const input = (props) => {
     let inputElement = null;
     let inputClass = [classes.InputElement];
+    let inputState = {
+        valid: true,
+        touched: true
+    };
+
+    inputState.valid = props.valid;
+    inputState.touched = props.touched;
 
     if (!props.valid && props.touched) {
         inputClass.push(classes.Invalid);

@@ -1,0 +1,12 @@
+.RowFilter {
+    margin-bottom: 10px;
+    padding: 16px;
+    border: 1px solid #dfe5ec;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.FilterButtonForm {
+    margin: 4px;
+}
