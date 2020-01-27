@@ -15,7 +15,7 @@ const tableBody = (props) => {
 
         return(
             <tr className={ classes.Row }
-                key={ rowObj.id }
+                key={ rowObj.id + rowObj.firstName + rowObj.lastName }
                 onClick={ () => props.rowClicked(rowObj) }>
                     { cells }
             </tr>

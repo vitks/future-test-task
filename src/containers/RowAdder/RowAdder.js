@@ -158,15 +158,15 @@ class RowAdder extends Component {
         return isValid;
     }
 
-    allInputsCheckValidity = () => {
+    allInputsCheckValidity = (newRowAdderForm) => {
         let validityArray = [];
         let isHidden = true;
 
-        for (let key in this.state.rowAdderForm) {
+        for (let key in newRowAdderForm) {
             if (this.state.rowAdderForm[key].validation.required) {
                 validityArray.push({
-                    valid: this.state.rowAdderForm[key].valid,
-                    touched: this.state.rowAdderForm[key].touched
+                    valid: newRowAdderForm[key].valid,
+                    touched: newRowAdderForm[key].touched
                 });
             }
         }
@@ -175,7 +175,7 @@ class RowAdder extends Component {
             isHidden = !validityElement.valid || !validityElement.touched;
         });
 
-        this.setState({addButtonView: !isHidden});
+        return !isHidden;
     }
 
     inputChangeHandler = (event, formElement) => {
@@ -188,8 +188,9 @@ class RowAdder extends Component {
                 valid: this.checkValidity(event.target.value, this.state.rowAdderForm[formElement].validation)
             }
         };
+        const updatedAddButtonView = this.allInputsCheckValidity(updatedRowAdderForm);
 
-        this.setState({rowAdderForm: updatedRowAdderForm});
+        this.setState({ rowAdderForm: updatedRowAdderForm, addButtonView: updatedAddButtonView });
     }
 
     render() {
@@ -222,7 +223,7 @@ class RowAdder extends Component {
                 { addButtonView ?
                     <Button
                         position='Single'
-                        style={{ marginBottom: '10px 0px 0px 5px' }}
+                        style={{ margin: '10px 0px 0px 5px' }}
                         clicked={ () => this.props.addRowClicked({
                             id: rowAdderForm.id.value,
                             firstName: rowAdderForm.firstName.value,

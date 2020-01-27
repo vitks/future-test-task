@@ -1,5 +1,6 @@
 .Table {
     margin: 0 auto;
+    min-width: 80%;
     border-spacing: 0;
     text-align: left;
     vertical-align: middle;

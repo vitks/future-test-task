@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import TableHead from './TableHead/TableHead';
-import TableBody from './TableBody/TableBody';
-import Pagination from '../UI/Pagination/Pagination';
+import TableHead from '../../components/TableHead/TableHead';
+import TableBody from '../../components/TableBody/TableBody';
+import Pagination from '../../components/UI/Pagination/Pagination';
 
 import classes from './Table.module.css';
 
@@ -13,7 +13,7 @@ class Table extends Component {
     }
 
     componentDidMount() {
-       let newPagesNumber = this.props.body.length / this.props.maxRowsNumber;
+       let newPagesNumber = this.props.structure.tableBody.length / this.props.maxRowsNumber;
 
        if (newPagesNumber - Math.trunc(newPagesNumber) > 0) newPagesNumber = Math.trunc(newPagesNumber) + 1;
 
@@ -41,32 +41,35 @@ class Table extends Component {
     }
 
     render() {
-        const startOfPage = this.props.maxRowsNumber * this.state.currentPage - this.props.maxRowsNumber;
-        let endOfPage = startOfPage + this.props.maxRowsNumber;
-        let newBody = [];
+        const { currentPage, pagesNumber } = this.state;
+        const { structure, maxRowsNumber, tableRowClicked } = this.props;
+        const startOfPage = maxRowsNumber * currentPage - maxRowsNumber;
+        let endOfPage = startOfPage + maxRowsNumber;
+        let paginatedBody = [];
 
-        if (endOfPage > this.props.body.length) {
-            endOfPage = this.props.body.length;
+        if (endOfPage > structure.tableBody.length) {
+            endOfPage = structure.tableBody.length;
         }
 
         for (let i = startOfPage; i < endOfPage; i++) {
-            newBody.push(this.props.body[i]);
+            paginatedBody.push(structure.tableBody[i]);
         }
 
         return(
             <div>
-                { this.state.pagesNumber ?
+                { pagesNumber ?
                     <div>
                         <table className={ classes.Table }>
-                            <TableHead columnHeads={ this.props.head } />
+                            <TableHead
+                                columnHeads={ structure.tableHead } />
                             <TableBody
-                                rows={ newBody }
-                                columns={ this.props.head }
-                                rowClicked={ this.props.tableRowClicked } />
+                                rows={ paginatedBody }
+                                columns={ structure.tableHead }
+                                rowClicked={ tableRowClicked } />
                         </table>
                         <Pagination 
-                            currentPage={ this.state.currentPage }
-                            pagesNumber={ this.state.pagesNumber }
+                            currentPage={ currentPage }
+                            pagesNumber={ pagesNumber }
                             clicked={ this.paginationHandler } />
                     </div>
                     : null }

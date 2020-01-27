@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import axios from '../../axios';
 import ButtonForm from '../../components/ButtonForm/ButtonForm';
-import Table from '../../components/Table/Table';
+import Table from '../Table/Table';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import PersonInformation from '../../components/PersonInformation/PersonInformation';
 import Button from '../../components/UI/Button/Button';
@@ -31,27 +31,41 @@ class App extends Component {
             },
             activeButton: null
         },
-        tableHead: [{
-                key: 'id',
-                name: 'ID'
-            },
-            {
-                key: 'firstName',
-                name: 'First Name'
-            },
-            {
-                key: 'lastName',
-                name: 'Last Name'
-            },
-            {
-                key: 'email',
-                name: 'Email'
-            },
-            {
-                key: 'phone',
-                name: 'Phone'
-            }],
-        tableBody: null,
+        tableStructure: {
+            tableHead: [
+                {
+                    key: 'id',
+                    name: 'ID',
+                    sortDirection: null,
+                    filtration: () => this.headFiltrationHandler('id')
+                },
+                {
+                    key: 'firstName',
+                    name: 'First Name',
+                    sortDirection: null,
+                    filtration: () => this.headFiltrationHandler('firstName')
+                },
+                {
+                    key: 'lastName',
+                    name: 'Last Name',
+                    sortDirection: null,
+                    filtration: () => this.headFiltrationHandler('lastName')
+                },
+                {
+                    key: 'email',
+                    name: 'Email',
+                    sortDirection: null,
+                    filtration: () => this.headFiltrationHandler('email')
+                },
+                {
+                    key: 'phone',
+                    name: 'Phone',
+                    sortDirection: null,
+                    filtration: () => this.headFiltrationHandler('phone')
+                }
+            ],
+            tableBody: null
+        },
         loading: false,
         chosenRow: null,
         addRowModalView: false
@@ -60,11 +74,69 @@ class App extends Component {
     getDataFromServer = (rowsNumber) => {
         axios.get(`?rows=${ rowsNumber }&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}`)
             .then(response => {
-                this.setState({ tableBody: response.data, loading: false });
+                const updatedTableHead = this.state.tableStructure.tableHead.map(tableHeadObj => {
+                    return { ...tableHeadObj, sortDirection: null };
+                })
+                const updatedTableStructure = {
+                    ...this.state.tableStructure,
+                    tableHead: updatedTableHead,
+                    tableBody: response.data
+                };
+
+                this.setState({ tableStructure: updatedTableStructure, loading: false });
             })
             .catch(error => {
                 this.setState({ loading: false });
             });
+    }
+
+    headFiltrationHandler = (columnKey) => {
+        const { tableStructure } = this.state;
+        let updatedTableBody = [...tableStructure.tableBody];
+        let updatedSortDirection = null;
+        const columnIndex = tableStructure.tableHead.map(tableHeadObj => {
+            return tableHeadObj.key;
+        }).indexOf(columnKey);
+
+        switch(tableStructure.tableHead[columnIndex].sortDirection) {
+            case('Descend'):
+                updatedTableBody = updatedTableBody.sort((a, b) => {
+                    return this.compare(a[columnKey], b[columnKey]);
+                });
+                updatedSortDirection = 'Ascend';
+                break;
+            case('Ascend'):
+                updatedTableBody = updatedTableBody.sort((a, b) => {
+                    return this.compare(b[columnKey], a[columnKey]);
+                });
+                updatedSortDirection = 'Descend';
+                break;
+            default:
+                updatedTableBody = updatedTableBody.sort((a, b) => {
+                    return this.compare(a[columnKey], b[columnKey]);
+                });
+                updatedSortDirection = 'Ascend';
+        }
+
+        let updatedTableStructure = {
+            ...tableStructure,
+            tableHead: [...tableStructure.tableHead],
+            tableBody: updatedTableBody
+        };
+
+        updatedTableStructure.tableHead[columnIndex].sortDirection = updatedSortDirection;
+
+        this.setState({ tableStructure: updatedTableStructure });
+    }
+
+    compare = (a, b) => {
+        if (a > b)  {
+            return 1;
+        } else if (a < b) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     changeDataTypeHandler = (buttonKey) => {
@@ -116,32 +188,34 @@ class App extends Component {
     }
 
     addRowHandler = (newRowObj) => {
-        const newTableBody = [newRowObj,...this.state.tableBody];
+        const newTableStructure = {
+            ...this.state.tableStructure,
+            tableBody: [newRowObj, ...this.state.tableStructure.tableBody]
+        };
         
-        this.setState({ tableBody: newTableBody });
+        this.setState({ tableStructure: newTableStructure });
         this.modalViewHandler();
     }
     
     render() {
-        const { buttonForm, tableHead, tableBody, loading, chosenRow, addRowModalView } = this.state;
+        const { buttonForm, tableStructure, loading, chosenRow, addRowModalView } = this.state;
         let content = null;
         let rowContent = null;
 
         if (chosenRow) {
             rowContent = <div>
                     <PersonInformation personObj={ chosenRow }/>
-                </div>
+                </div>;
         }
 
-        if (tableBody && loading === false) {
+        if (tableStructure.tableBody && loading === false) {
             content = <div className={ classes.ContentWrapper }>
                     <Button
                         position='Single'
                         style={{ margin: '20px auto' }}
                         clicked={ this.modalViewHandler }>Add table row</Button>
                     <Table
-                        head={ tableHead }
-                        body={ tableBody }
+                        structure={ tableStructure }
                         maxRowsNumber={ 10 }
                         tableRowClicked={ this.onTableRowClickHandler } />
                     <Modal
