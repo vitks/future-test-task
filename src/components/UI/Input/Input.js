@@ -10,6 +10,7 @@ const input = (props) => {
         touched: true
     };
 
+    // Покраска инпута, если он не валиден
     inputState.valid = props.valid;
     inputState.touched = props.touched;
 
@@ -17,6 +18,7 @@ const input = (props) => {
         inputClass.push(classes.Invalid);
     }
 
+    // Выбор типа инпута (input/textarea)
     switch (props.elementType) {
         case ('input'):
             inputElement = <input
@@ -40,6 +42,7 @@ const input = (props) => {
                 onChange={props.changed}/>
     }
 
+    // Рендер инпута
     return (
         <div className={classes.Input}>
             <label className={classes.Label}>{props.label}</label>

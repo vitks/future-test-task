@@ -2,6 +2,7 @@ import React from 'react';
 
 import classes from './Button.module.css';
 
+// Рендер кнопки
 const button = ( props ) => {
     let classesArray = [classes.Button, classes[props.position]];
     let buttonStyle = null;

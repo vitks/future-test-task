@@ -2,6 +2,7 @@ import React from 'react';
 
 import classes from './Backdrop.module.css';
 
+// Рендер затемнения страницы
 const backdrop = (props) => (
     props.show ?
         <div

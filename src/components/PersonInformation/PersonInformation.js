@@ -2,6 +2,7 @@ import React from 'react';
 
 import classes from './PersonInformation.module.css';
 
+// Рендер данных выбранной строки таблицы
 const personInformation = (props) => (
     <div className={ classes.PersonInformationForm }>
         <span>Выбран пользователь <b>{ props.personObj.firstName } { props.personObj.lastName }</b></span>

@@ -5,6 +5,7 @@ import Button from '../../components/UI/Button/Button';
 
 class RowAdder extends Component {
     state = {
+        // Объект структуры формы для ввода данных
         rowAdderForm: {
             id: {
                 elementType: 'input',
@@ -148,6 +149,7 @@ class RowAdder extends Component {
         addButtonView: false
     }
 
+    // Проверка валибности данных в инпуте
     checkValidity = (value, rules) => {
         let isValid = true;
 
@@ -158,6 +160,7 @@ class RowAdder extends Component {
         return isValid;
     }
 
+    // Проверка валибности данных во всех инпутах
     allInputsCheckValidity = (newRowAdderForm) => {
         let validityArray = [];
         let isHidden = true;
@@ -178,6 +181,7 @@ class RowAdder extends Component {
         return !isHidden;
     }
 
+    // Обработка изменения данных в инпуте
     rowAdderInputChangeHandler = (event, formElement) => {
         const updatedRowAdderForm = {
             ...this.state.rowAdderForm,
@@ -197,6 +201,7 @@ class RowAdder extends Component {
         const { rowAdderForm, addButtonView } = this.state;
         let formElementsArray = [];
 
+        // Превращение входящего объекта формы инпутов в массив для последующего преобразования в элементы формы
         for (let key in this.state.rowAdderForm) {
             formElementsArray.push({
                 id: key,
@@ -204,6 +209,7 @@ class RowAdder extends Component {
             })
         }
 
+        // Поэлементная сборка формы с элементами в соответствии с данными массива
         let form = formElementsArray.map(formElement => (
             <Input
                 key={ formElement.id }
@@ -215,6 +221,7 @@ class RowAdder extends Component {
                 changed={ (event) => this.rowAdderInputChangeHandler(event, formElement.id) } />
         ));
         
+        // Рендер формы добавления строки в таблицу
         return (
             <div>
                 <form>{ form }</form>

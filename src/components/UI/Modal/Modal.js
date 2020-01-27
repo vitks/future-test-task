@@ -4,6 +4,7 @@ import Backdrop from '../Backdrop/Backdrop'
 
 import classes from './Modal.module.css'
 
+// Рендер модального окна
 const modal = (props) => (
     <div>
         <Backdrop

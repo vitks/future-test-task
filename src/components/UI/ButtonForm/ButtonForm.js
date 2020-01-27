@@ -6,6 +6,7 @@ const buttonForm = (props) => {
     let buttonsArray = [];
     let buttonFormContent = null;
 
+    // Превращение входящего объекта формы кнопок в массив для последующего преобразования в элементы формы
     for (let key in props.buttonFormStructure) {
         buttonsArray.push({
             key: key,
@@ -13,8 +14,10 @@ const buttonForm = (props) => {
         });
     }
 
+    // Вычисление ширины одной кнопки
     const buttonWidth = (100/buttonsArray.length).toFixed(0).toString() + '%';
 
+    // Поэлементная сборка формы с элементами в соответствии с данными массива
     buttonFormContent = buttonsArray.map(buttonObj => (
         <Button
             key={ buttonObj.key }
@@ -24,6 +27,7 @@ const buttonForm = (props) => {
             clicked={ () => props.buttonClicked(buttonObj.key) }>{ buttonObj.config.text }</Button>
     ));
 
+    // Рендер формы с кнопками
     return(
         <div>
             { buttonFormContent }

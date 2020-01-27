@@ -15,6 +15,7 @@ import classes from './App.module.css';
 
 class App extends Component {
     state = {
+        // Объект формы выбора формата данных
         buttonForm: {
             buttons: {
                 smallData: {
@@ -32,6 +33,7 @@ class App extends Component {
             },
             activeButton: null
         },
+        // Объект структуры таблицы
         tableStructure: {
             tableHead: [
                 {
@@ -67,15 +69,20 @@ class App extends Component {
             ],
             tableBody: null
         },
+        // Параметр отображения спиннера
         loading: false,
+        // Выбранная строка из таблицы
         chosenRow: null,
+        // Видимость модального окна добавления строки
         addRowModalView: false,
+        // Параметры фильтрации таблицы
         filter: {
             value: '',
             chosenColumns: []
         }
     };
 
+    // Получение данных с сервера
     getDataFromServer = (rowsNumber) => {
         axios.get(`?rows=${ rowsNumber }&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}`)
             .then(response => {
@@ -99,6 +106,7 @@ class App extends Component {
             });
     }
 
+    // Сортировка по возрастанию/убыванию по выбранной колонке таблицы
     headSortHandler = (columnKey) => {
         const { tableStructure } = this.state;
         let updatedTableBody = [...tableStructure.tableBody];
@@ -138,6 +146,7 @@ class App extends Component {
         this.setState({ tableStructure: updatedTableStructure });
     }
 
+    // Вынесенная в функцию посторяющаяся операция из headSortHandler()
     compare = (a, b) => {
         if (a > b)  {
             return 1;
@@ -148,6 +157,7 @@ class App extends Component {
         }
     }
 
+    // Переключение формата загружаемых данных
     changeDataTypeHandler = (buttonKey) => {
         const { buttonForm } = this.state;
         let updatedButtonForm = null;
@@ -188,14 +198,17 @@ class App extends Component {
         }
     }
 
+    // Запись в стейт выбранной строки из таблицы
     onTableRowClickHandler = (tableRowObj) => {
         this.setState({ chosenRow: tableRowObj });
     }
 
+    // Изменение видимости модального окна добавления строки в таблицу
     modalViewHandler = () => {
         this.setState({ addRowModalView: !this.state.addRowModalView });
     }
 
+    // Добавление строки в таблицу
     addRowHandler = (newRowObj) => {
         const newTableStructure = {
             ...this.state.tableStructure,
@@ -206,6 +219,7 @@ class App extends Component {
         this.modalViewHandler();
     }
 
+    // Запись в стейт параметров фильтрации таблицы
     filterHandler = (newValue, newChosenColumns) => {
         const updatedFilter = {
             ...this.state.filter,
@@ -216,6 +230,7 @@ class App extends Component {
         this.setState({ filter: updatedFilter })
     }
 
+    // Фильтрация таблицы по хранящемся в стейте параметрам
     filterTableBody = (tableBody) => {
         const { filter, tableStructure } = this.state;
         let filteredTableBody = null;
@@ -252,12 +267,12 @@ class App extends Component {
         let content = null;
         let rowContent = null;
 
+        // Добавление в контент карты выбранного из таблицы пользователя
         if (chosenRow) {
-            rowContent = <div>
-                    <PersonInformation personObj={ chosenRow }/>
-                </div>;
+            rowContent = <div><PersonInformation personObj={ chosenRow }/></div>;
         }
 
+        // Выбор контента для рендера (таблица/спиннер/вступительный текст)
         if (tableStructure.tableBody && loading === false) {
             content = <div className={ classes.ContentWrapper }>
                     <Button
@@ -282,6 +297,7 @@ class App extends Component {
             content = <p className={ classes.InitialText }>Please, choose a data type for upload.</p>
         }
 
+        // Рендер контента страницы
         return(
             <div className={ classes.App }>
                 <ButtonForm
@@ -293,4 +309,5 @@ class App extends Component {
     }
 }
 
+// Верхнеуровневая обертка для ловли и отображения ошибок запросов к апи сервера
 export default withErrorHandler(App, axios);

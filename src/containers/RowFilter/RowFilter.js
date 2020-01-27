@@ -8,6 +8,7 @@ import classes from './RowFilter.module.css';
 
 class RowFilter extends Component {
     state = {
+        // Объект инпута фильтрации
         filterInput: {
             elementType: 'input',
             elementConfig: {
@@ -16,6 +17,7 @@ class RowFilter extends Component {
             },
             value: ''
         },
+        // Объект формы выбора фитруемых данных
         filterButtonForm: {
             filterButtons: {
                 id: {
@@ -48,6 +50,7 @@ class RowFilter extends Component {
         }
     }
 
+    // Обработка изменения данных в инпуте
     rowFilterInputChangeHandler = (event) => {
         const updatedFilterInput = {
             ...this.state.filterInput,
@@ -57,6 +60,7 @@ class RowFilter extends Component {
         this.setState({ filterInput: updatedFilterInput });
     }
 
+    // Обработка изменения элементов формы выбора фитруемых данных
     chooseFilteredColumnsHandler = (buttonKey) => {
         const { filterButtonForm } = this.state;
         let updatedFilterButtonForm = null;
@@ -84,6 +88,7 @@ class RowFilter extends Component {
         this.setState({ filterButtonForm: updatedFilterButtonForm });
     }
 
+    // Рендер формы фильтрации таблицы
     render() {
         const { filterInput, filterButtonForm } = this.state;
 

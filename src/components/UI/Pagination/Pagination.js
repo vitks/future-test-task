@@ -3,6 +3,7 @@ import React from 'react';
 import classes from './Pagination.module.css';
 
 const pagination = (props) => {
+    // Сборка массива для последующего преображения в элементы пагинации
     const pagesArray = [];
     let paginationForm = null;
 
@@ -20,6 +21,7 @@ const pagination = (props) => {
         }
     }
 
+    // Поэлементная сборка формы пагинации в соответствии с данными массива
     paginationForm = pagesArray.map((page, index) => {
         if (page === '...') {
             return(
@@ -39,6 +41,7 @@ const pagination = (props) => {
         }
     });
 
+    // Рендер пагинации
     return(
         <div className={ classes.Pagination }>
             <button

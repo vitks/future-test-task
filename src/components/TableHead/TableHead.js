@@ -3,7 +3,9 @@ import React from 'react';
 import classes from './TableHead.module.css';
 
 const tableHead = (props) => {
+    // Вычисление ширины одного заголовка
     const columnWidth = (100/props.columnHeads.length).toFixed(0).toString() + '%';
+    // Поэлементная сборка заголовков таблицы в соответствии с данными
     const headContent = props.columnHeads.map(columnHeadObj => {
         let arrow = null;
 
@@ -25,6 +27,7 @@ const tableHead = (props) => {
         );
     });
 
+    // Рендер заголовков таблицы
     return(
         <thead className={ classes.TableHead }>
             <tr className={ classes.Row }>{ headContent }</tr>

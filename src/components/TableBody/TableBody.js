@@ -3,8 +3,11 @@ import React from 'react';
 import classes from './TableBody.module.css';
 
 const tableBody = (props) => {
+    // Вычисление ширины одной ячейки
     const columnWidth = (100/props.columns.length).toFixed(0).toString() + '%';
+    // Поэлементная сборка тела таблицы в соответствии с данными
     const bodyContent = props.rows.map(rowObj => {
+        // Поэлементная сборка строк таблицы
         const cells = props.columns.map(columnObj => {
             return(
                 <td className={ classes.Cell }
@@ -24,6 +27,7 @@ const tableBody = (props) => {
         );
     });
 
+    // Рендер тела таблицы
     return(
         <tbody>{ bodyContent }</tbody>
     );

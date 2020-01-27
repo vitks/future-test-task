@@ -8,6 +8,7 @@ import classes from './Table.module.css';
 
 class Table extends Component {
     state = {
+        // Параметры, необходимые для пагинации
         currentPage: null,
         pagesNumber: null,
         previousLength: null
@@ -17,12 +18,14 @@ class Table extends Component {
         this.setPagination();
     }
 
+    // Обновление параметров пагинации в случае изменения размера таблицы
     componentDidUpdate() {
         if (this.state.previousLength !== this.props.structure.tableBody.length) {
             this.setPagination();
         }
     }
 
+    // Установка параметров пагинации
     setPagination = () => {
         let newPagesNumber = this.props.structure.tableBody.length / this.props.maxRowsNumber;
         
@@ -31,6 +34,7 @@ class Table extends Component {
         this.setState({ pagesNumber: newPagesNumber, currentPage: 1, previousLength: this.props.structure.tableBody.length });
     }
 
+    // Обработка нажатия на элемент пагинации
     paginationHandler = (value) => {
         const { currentPage, pagesNumber } = this.state;
         let newCurrentPage = currentPage;
@@ -58,14 +62,17 @@ class Table extends Component {
         let endOfPage = startOfPage + maxRowsNumber;
         let paginatedBody = [];
 
+        // Вычисление индекса последнего элемента тела таблицы для данной страницы
         if (endOfPage > structure.tableBody.length) {
             endOfPage = structure.tableBody.length;
         }
 
+        // Составление массива данных для тела таблицы
         for (let i = startOfPage; i < endOfPage; i++) {
             paginatedBody.push(structure.tableBody[i]);
         }
 
+        // Рендер таблицы
         return(
             <div>
                 { pagesNumber ?
