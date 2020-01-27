@@ -232,10 +232,10 @@ class App extends Component {
 
     // Фильтрация таблицы по хранящемся в стейте параметрам
     filterTableBody = (tableBody) => {
-        const { filter, tableStructure } = this.state;
+        const { filter } = this.state;
         let filteredTableBody = null;
-       
-        if (filter.value !== '' && filter.chosenColumns !== []) {
+
+        if (filter.value !== '' && filter.chosenColumns.length > 0) {
             filteredTableBody = [];
 
             tableBody.forEach(row => {
@@ -250,8 +250,8 @@ class App extends Component {
                 if (flag) filteredTableBody.push(row);
             });
         } else {
-            if (tableStructure.tableBody) {
-                filteredTableBody = [...tableStructure.tableBody];
+            if (tableBody) {
+                filteredTableBody = [...tableBody];
             }
         }
 

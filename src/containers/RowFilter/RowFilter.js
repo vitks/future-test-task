@@ -82,7 +82,7 @@ class RowFilter extends Component {
         } else {
             const index = updatedFilterButtonForm.chosenColumns.indexOf(buttonKey);
 
-            updatedFilterButtonForm.chosenColumns.slice(index, 1);
+            updatedFilterButtonForm.chosenColumns.splice(index, 1);
         }
         
         this.setState({ filterButtonForm: updatedFilterButtonForm });
